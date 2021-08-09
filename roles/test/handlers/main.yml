@@ -1,0 +1,15 @@
+- name: test handler
+  debug:
+    msg: "handler called: {{ inventory_hostname }}"
+  changed_when: True
+  notify:
+    - get hostname(handler)
+    - print hostname(handler)
+
+- name: get hostname(handler)
+  command: cat /etc/hostname
+  register: hostname
+
+- name: print hostname(handler)
+  debug:
+    msg: "(handler)hostname: {{ hostname.stdout }} on {{ inventory_hostname }}"

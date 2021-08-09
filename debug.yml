@@ -1,0 +1,14 @@
+- name: test
+  hosts: test-group[0]
+  any_errors_fatal: "{{ any_errors_fatal | default(True) }}"
+  gather_facts: False
+  tasks:
+    - name: test
+      include_role:
+        name: test
+        tasks_from: main.yml
+        apply:
+          delegate_to: "{{ item }}"
+      vars:
+        inventory_hostname: "{{ hostvars[item]['inventory_hostname'] }}"
+      with_items: "{{ groups['test-group']|difference(groups['test-group'][0]) }}"

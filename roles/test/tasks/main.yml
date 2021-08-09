@@ -1,0 +1,12 @@
+- name: get hostname(task)
+  command: cat /etc/hostname
+  register: hostname
+
+- name: print hostname(task)
+  debug:
+    msg: "(task)hostname: {{ hostname.stdout }} on {{ inventory_hostname }}"
+  changed_when: True
+  notify: test handler
+
+- name: flush handlers
+  meta: flush_handlers
